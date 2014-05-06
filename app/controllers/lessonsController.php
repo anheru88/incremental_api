@@ -12,8 +12,8 @@ class LessonsController extends \BaseController {
 		$lessons =  Lesson::all();
 
 		return Response::json([
-			'data' => $lessons->toArray()
-		], 200);
+			'data' => $this->transformCollection($lessons)
+			], 200);
 	}
 
 	/**
@@ -49,14 +49,14 @@ class LessonsController extends \BaseController {
 		{
 			return Response::json([
 				'error' => [
-					'message' => 'Lesson does not exist'
+				'message' => 'Lesson does not exist'
 				]
-			], 404);
+				], 404);
 		}
 
 		return Response::json([
-			'data' => $lesson->toArray()
-		], 200);
+			'data' => $this->transform($lesson)
+			], 200);
 	}
 
 	/**
@@ -90,6 +90,26 @@ class LessonsController extends \BaseController {
 	public function destroy($id)
 	{
 		//
+	}
+
+	/**
+	 * Description
+	 * 
+	 * @param type $lessons 
+	 * @return type
+	 */
+	private function transformCollection($lessons)
+	{
+		return array_map([$this, 'transform'], $lessons->toArray());
+	}
+
+	private function transform($lesson)
+	{
+		return [
+			'title' => $lesson['title'],
+			'body' => $lesson['body'],
+			'active' => (boolean) $lesson['some_bool']
+		];
 	}
 
 }
