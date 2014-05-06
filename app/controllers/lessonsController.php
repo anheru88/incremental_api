@@ -1,6 +1,21 @@
 <?php
 
+use Anheru88\Transformers\LessonTransformer;
+
 class LessonsController extends \BaseController {
+
+
+	/**
+	 * 
+	 * @var Anheru88\Transformers\LessonTransformer
+	 */
+	protected $lessonTransformer;
+
+
+	function __construct(LessonTransformer $lessonTransformer)
+	{
+		$this->lessonTransformer = $lessonTransformer;
+	}
 
 	/**
 	 * Display a listing of the resource.
@@ -12,7 +27,7 @@ class LessonsController extends \BaseController {
 		$lessons =  Lesson::all();
 
 		return Response::json([
-			'data' => $this->transformCollection($lessons)
+			'data' => $this->lessonTransformer->transformCollection($lessons->all())
 			], 200);
 	}
 
@@ -55,7 +70,7 @@ class LessonsController extends \BaseController {
 		}
 
 		return Response::json([
-			'data' => $this->transform($lesson)
+			'data' => $this->lessonTransformer->transform($lesson)
 			], 200);
 	}
 
@@ -90,26 +105,6 @@ class LessonsController extends \BaseController {
 	public function destroy($id)
 	{
 		//
-	}
-
-	/**
-	 * Description
-	 * 
-	 * @param type $lessons 
-	 * @return type
-	 */
-	private function transformCollection($lessons)
-	{
-		return array_map([$this, 'transform'], $lessons->toArray());
-	}
-
-	private function transform($lesson)
-	{
-		return [
-			'title' => $lesson['title'],
-			'body' => $lesson['body'],
-			'active' => (boolean) $lesson['some_bool']
-		];
 	}
 
 }
