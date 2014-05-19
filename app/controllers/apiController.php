@@ -23,7 +23,7 @@ class ApiController extends BaseController {
 
 	public function respondInternalError($message = 'Internal Error')
 	{
-		return $this->setStatusCode(500)->respondWithError($message)
+		return $this->setStatusCode(500)->respondWithError($message);
 	}
 
 	public function respond($data, $headers = [])
