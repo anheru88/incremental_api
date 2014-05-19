@@ -15,6 +15,8 @@ class LessonsController extends ApiController {
 	function __construct(LessonTransformer $lessonTransformer)
 	{
 		$this->lessonTransformer = $lessonTransformer;
+
+		$this->beforeFilter('auth.basic', ['on' => 'post']);	
 	}
 
 	/**
@@ -48,7 +50,10 @@ class LessonsController extends ApiController {
 	 */
 	public function store()
 	{
-		//
+		if(! Input::get('title') or ! Input::get('body'))
+		{
+			return $this->setStatusCode(422)->respondWithError('Parameters failed validation for a lesson.');
+		}
 	}
 
 	/**
