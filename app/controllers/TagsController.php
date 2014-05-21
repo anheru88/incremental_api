@@ -16,33 +16,13 @@ class TagsController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($lessonId = null)
 	{
-		$tags = Tag::all();
+		$tags = $this->getTags($lessonId);
 
 		return $this->respond([
 			'data' => $this->tagTransformer->transformCollection($tags->all())
 		]);
-	}
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
 	}
 
 	/**
@@ -57,36 +37,17 @@ class TagsController extends ApiController {
 	}
 
 	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
+	 * [getTags description]
+	 * @param  [type] $lessonId
+	 * @return [type]
 	 */
-	public function edit($id)
+	private function getTags($lessonId)
 	{
-		//
-	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
+		$tags = $lessonId ? Lesson::findOrFail($lessonId)->tags : Tag::all();
+
+		return $tags;
 	}
 
 }
