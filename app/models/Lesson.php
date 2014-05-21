@@ -1,7 +1,7 @@
 <?php
 
 class Lesson extends \Eloquent {
-	protected $fillable = ['title', 'body'];
+	protected $fillable = ['title', 'body', 'some_bool'];
 
 	/**
 	 * Regresa los tags asociados con la lección.
