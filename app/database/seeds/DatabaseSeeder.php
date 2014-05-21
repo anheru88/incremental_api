@@ -9,13 +9,19 @@ class DatabaseSeeder extends Seeder {
 	 */
 	public function run()
 	{
+		DB::statement('SET FOREIGN_KEY_CHECKS=0');
 		Lesson::truncate();
 		User::truncate();
+		Tag::truncate();
+		DB::table('lesson_tag')->truncate();
+		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 		
 		Eloquent::unguard();
 
 		$this->call('LessonsTableSeeder');
 		$this->call('UsersTableSeeder');
+		$this->call('TagsTableSeeder');
+		$this->call('LessonTagTableSeeder');
 	}
 
 }
